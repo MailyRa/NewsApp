@@ -4,7 +4,7 @@ import express from 'express';
 
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var db = require('./db/crud');
+var crud = require('./db/crud');
 
 var app = express();
 const port = 8080;
@@ -25,6 +25,11 @@ app.get('/api', (req: express.Request, res: express.Response) => {
 app.get('/api/users', (req: express.Request, res: express.Response) => {
   res.send(['Aang', 'Katara', 'Momo', 'Sokka', 'Appa']);
 });
+
+// app.post('/api/signUp', (req: express.Request, res: express.Response) => {
+//   crud.createUser("", "", "", "")
+//   res.send("success")
+// })
 
 // catch 404 and forward to error handler
 app.use(function (req: express.Request, res: express.Response, next: express.NextFunction) {

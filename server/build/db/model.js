@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.User = void 0;
 var _a = require('sequelize'), Sequelize = _a.Sequelize, DataTypes = _a.DataTypes;
 var sequelize = new Sequelize('db', 'root', 'password', {
     host: 'localhost',
@@ -33,5 +35,6 @@ var User = sequelize.define('User', {
     sequelize: sequelize,
     modelName: 'User'
 });
+exports.User = User;
 User.sync({ alter: true });
 console.log(User === sequelize.models.User);

@@ -39,3 +39,5 @@ const User = sequelize.define('User', {
 });
 User.sync({ alter: true })
 console.log(User === sequelize.models.User);
+
+export {User}
