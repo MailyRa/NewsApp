@@ -1,8 +1,10 @@
 var createError = require('http-errors');
-var express = require('express');
+//var express = require('express');
+import express from 'express';
+
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var db = require('./db/model.js');
+var db = require('./db/crud');
 
 var app = express();
 const port = 8080;
@@ -12,21 +14,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('view engine', 'html');
 
-app.get('/api', (req, res) => {
+interface ResponseError extends Error {
+  status?: number;
+}
+
+app.get('/api', (req: express.Request, res: express.Response) => {
   res.send(`${new Date()}`);
 });
 
-app.get('/api/users', (req, res) => {
+app.get('/api/users', (req: express.Request, res: express.Response) => {
   res.send(['Aang', 'Katara', 'Momo', 'Sokka', 'Appa']);
 });
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function (req: express.Request, res: express.Response, next: express.NextFunction) {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err: ResponseError, req: express.Request, res: express.Response, next: express.NextFunction) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

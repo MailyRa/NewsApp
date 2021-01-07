@@ -1,22 +1,20 @@
-
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize(
-    'db', 'root', 'password', 
-    {
+"use strict";
+var _a = require('sequelize'), Sequelize = _a.Sequelize, DataTypes = _a.DataTypes;
+var sequelize = new Sequelize('db', 'root', 'password', {
     host: 'localhost',
     dialect: 'mysql',
-    },
-);
+});
 sequelize
-  .authenticate()
-  .then(function(err) {
+    .authenticate()
+    .then(function (err) {
+    console.log(err);
     console.log('Connection has been established successfully.');
-  })
-  .catch(function (err) {
+})
+    .catch(function (err) {
+    console.log(err);
     console.log('Unable to connect to the database:', err);
-  });
-
-const User = sequelize.define('User', {
+});
+var User = sequelize.define('User', {
     firstName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -24,16 +22,16 @@ const User = sequelize.define('User', {
     lastName: {
         type: DataTypes.STRING,
     },
-    email:{
+    email: {
         type: DataTypes.STRING,
         unique: true
-    }, 
+    },
     password: {
         type: DataTypes.STRING(64),
     }
 }, {
-    sequelize,
+    sequelize: sequelize,
     modelName: 'User'
 });
-User.sync({ alter: true })
+User.sync({ alter: true });
 console.log(User === sequelize.models.User);
