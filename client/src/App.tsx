@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Router from "react-dom";
 import './App.css';
 import { 
@@ -22,12 +22,11 @@ function Homepage() {
 
   const newUser = (e:any) =>{
     history.push("/create_user")
-
   }
   return (
     <div>
       <h1>News Feed </h1>
-    <Button className="homepage-button" variant= "primary" type= "submit" size= "lg" onClick={newUser}>Sign up</Button>
+      <Button className="homepage-button" variant= "primary" type= "submit" size= "lg" onClick={newUser}>Sign up</Button>
     </div>
   )
 }
@@ -37,10 +36,10 @@ function Homepage() {
 function CreateUser(){
   let history = useHistory();
 
-  const[fname, setFname] = React.useState('');
-  const[lname, setLname] = React.useState('');
-  const[email, setEmail] = React.useState('');
-  const[password, setPassword] = React.useState('');
+  const[fname, setFname] = useState('');
+  const[lname, setLname] = useState('');
+  const[email, setEmail] = useState('');
+  const[password, setPassword] = useState('');
 
   const createUser = () => {
 
@@ -58,9 +57,10 @@ function CreateUser(){
       },
     })
     .then(response => response.json())
-    .then(data => {
-      if ('error' in data){
-        alert(data['error'])
+    .then((data) => {
+      if ("error" in data){
+        alert(data["error"])
+      } else {
         history.push('/')
       }
     })
@@ -83,11 +83,53 @@ function CreateUser(){
 }
 
 
-function Login(){
+function Login() {
 
-  return(
-  
-    )
+  let history = useHistory();
+
+  const [email, setEmail] = useState<any | null>(null);
+  const [password, setPassword] = useState<any | null>(null);
+
+  const handleLogIn = () => {
+    const user = {"email": email, "password": password}
+
+    fetch("/handle_login", {
+      method: "POST",
+      body:JSON.stringify(user),
+      headers:{
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+
+
+    })
+    .then(response => response.json())
+    .then((data) => {
+      if("error" in data) {
+        alert(data["error"])
+      } else {
+        window.location.href = "/";
+      }
+    })
+  }
+
+
+  return (
+    <form>
+      <title> Log in </title>
+      <label>
+        Email:
+        <input type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email}/>
+      </label>
+      <label>
+        Password:
+        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password}/>
+      </label>
+      <input type="submit" onClick={handleLogIn} value="Submit" />
+    </form>
+
+  )
+ 
 }
 
 
@@ -97,7 +139,7 @@ function App() {
   return (
     <BrowserRouter>
         <Switch>
-          <Route path="handle_login">
+          <Route path="/login">
             <Login/>
           </Route>
           <Route path="/create_user">

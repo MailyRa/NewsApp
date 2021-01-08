@@ -1,10 +1,10 @@
-var createError = require('http-errors');
-//var express = require('express');
 import express from 'express';
+import { Model } from 'sequelize/types';
 
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var crud = require('./db/crud');
+import { User } from './db/model';
 
 var app = express();
 const port = 8080;
@@ -29,22 +29,19 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
 })
 
 app.post('/handle_login', (req:express.Request, res: express.Response) => {
+  const userEmail: string = req.body["email"]
+  const userPassword: string = req.body["password"]
 
-    const userEmail: string = req.body["email"]
-    const userPassword: string = req.body["password"]
-
-   const user = crud.getUserByEmail(userEmail)
-
-    if ( user && userPassword === user.password){
-        session["currentUser"] = user.userId
-        res.end(JSON.stringify({userEmail: "email"})); 
+  let users = crud.getUserByEmail(userEmail).then(function (users: Array<typeof User>) {
+    if (users.length === 0 || users[0].password !== userPassword) {
+      res.send(JSON.stringify({"error": "Incorrect Password or Username"}))
     } else {
-        res.end(JSON.stringify({"error": "Incorrect Password or Username"}))
-
+      session["currentUser"] = users[0].userId
+      res.send(JSON.stringify({userEmail: "email"})); 
     }
-}
+  });
 
-)
+})
 
 
 app.listen(port, () => {
