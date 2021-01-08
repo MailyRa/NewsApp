@@ -26,9 +26,8 @@ function Homepage() {
   }
   return (
     <div>
-      News Feed 
-    <button type="submit" onClick={newUser}>
-    </button>
+      <h1>News Feed </h1>
+    <Button className="homepage-button" variant= "primary" type= "submit" size= "lg" onClick={newUser}>Sign up</Button>
     </div>
   )
 }
@@ -84,12 +83,23 @@ function CreateUser(){
 }
 
 
+function Login(){
+
+  return(
+  
+    )
+}
+
+
 
 function App() {
   
   return (
     <BrowserRouter>
         <Switch>
+          <Route path="handle_login">
+            <Login/>
+          </Route>
           <Route path="/create_user">
             <CreateUser/>
           </Route>

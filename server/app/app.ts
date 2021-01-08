@@ -13,49 +13,39 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('view engine', 'html');
+var session = require('express-session')
 
-// interface ResponseError extends Error {
-//   status?: number;
-// }
-
-// app.get('/api', (req: express.Request, res: express.Response) => {
-//   res.send(`${new Date()}`);
-// });
-
-// app.get('/api/users', (req: express.Request, res: express.Response) => {
-//   res.send(['Aang', 'Katara', 'Momo', 'Sokka', 'Appa']);
-// });
 
 app.post('/sign_up', (req: express.Request, res: express.Response) => {
 
-  const firstName = req.body["firstName"]
-  const lastName = req.body["lastName"]
-  const email = req.body["email"]
-  const password = req.body["password"]
+  const firstName: string  = req.body["firstName"]
+  const lastName: string = req.body["lastName"]
+  const email: string  = req.body["email"]
+  const password: string  = req.body["password"]
 
   crud.createUser(firstName, lastName, email, password)
   res.send('success')
 
 })
 
+app.post('/handle_login', (req:express.Request, res: express.Response) => {
 
-// catch 404 and forward to error handler
-// app.use(function (req: express.Request, res: express.Response, next: express.NextFunction) {
-//   next(createError(404));
-// });
+    const userEmail: string = req.body["email"]
+    const userPassword: string = req.body["password"]
 
-// error handler
-// app.use(function (err: ResponseError, req: express.Request, res: express.Response, next: express.NextFunction) {
-  // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+   const user = crud.getUserByEmail(userEmail)
 
-//   res.status(err.status || 500);
-//   res.json({
-//     message: err.message,
-//     error: err,
-//   });
-// });
+    if ( user && userPassword === user.password){
+        session["currentUser"] = user.userId
+        res.end(JSON.stringify({userEmail: "email"})); 
+    } else {
+        res.end(JSON.stringify({"error": "Incorrect Password or Username"}))
+
+    }
+}
+
+)
+
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
