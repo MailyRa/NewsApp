@@ -42,9 +42,8 @@ app.post('/handle_login', function (req, res) {
 });
 //NewsAPI Route
 app.get('/news_feed', function (req, res) {
-    newsAPI.getSources().then(function (apiResponse) {
+    newsAPI.getHeadlines().then(function (apiResponse) {
         console.log(apiResponse);
-        // return json for response
         res.send(JSON.stringify(apiResponse));
     });
 });

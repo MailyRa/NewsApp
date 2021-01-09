@@ -136,8 +136,12 @@ function Article(props: any) {
   return (
     <div>
       <div>{props.name}</div>
+      <div>{props.author}</div>
+      <div>{props.title}</div>
       <div>{props.description}</div>
+      <img src={props.urlToImage} alt="article"/>
       <a href={props.url}>{props.url}</a>
+      <div>{props.content}</div>
     </div>
   )
 }
@@ -152,12 +156,16 @@ function NewsList() {
       .then((articlesJson) => {
         console.log(articlesJson);
         const articleComponents = []
-        for(const article of articlesJson["sources"]) {
+        for(const article of articlesJson["articles"]) {
           articleComponents.push(
             <Article
               name={article["name"]}
+              author={article["author"]}
+              title={article["title"]}
               description={article["description"]}
               url={article["url"]}
+              urlToImage={article["urlToImage"]}
+              content={article["content"]}
               />
           )
         }

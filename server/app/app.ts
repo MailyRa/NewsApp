@@ -19,6 +19,9 @@ app.use(cookieParser());
 app.set('view engine', 'html');
 var session = require('express-session')
 require('dotenv').config();
+
+
+
 //Create User
 app.post('/sign_up', (req: express.Request, res: express.Response) => {
 
@@ -31,6 +34,7 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
   res.send('success')
 
 })
+
 
 //Handle Login
 app.post('/handle_login', (req:express.Request, res: express.Response) => {
@@ -52,15 +56,18 @@ app.post('/handle_login', (req:express.Request, res: express.Response) => {
 //NewsAPI Route
 app.get('/news_feed', (req:express.Request, res:express.Response) => {
 
-  newsAPI.getSources().then(function (apiResponse: INewsApiResponse) {
+  newsAPI.getHeadlines().then(function (apiResponse: INewsApiResponse) {
     console.log(apiResponse)
-
-    // return json for response
     res.send(JSON.stringify(apiResponse))
   })
 
-}
-)
+})
+
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
