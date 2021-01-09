@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Router from "react-dom";
 import './App.css';
 import { 
@@ -32,7 +32,7 @@ function Homepage() {
 }
 
 
-//Sign up Page 
+//Create User Page 
 function CreateUser(){
   let history = useHistory();
 
@@ -82,7 +82,7 @@ function CreateUser(){
 
 }
 
-
+//Login User
 function Login() {
 
   let history = useHistory();
@@ -132,13 +132,66 @@ function Login() {
  
 }
 
+function Article(props: any) {
+  return (
+    <div>
+      <div>{props.name}</div>
+      <div>{props.description}</div>
+      <a href={props.url}>{props.url}</a>
+    </div>
+  )
+}
+
+//NewsFeed 
+function NewsList() {
+  const [articles, setArticles] = useState<any[]>([]);
+  
+  useEffect(() => {
+    fetch("/news_feed")
+      .then ((response ) => response.json())
+      .then((articlesJson) => {
+        console.log(articlesJson);
+        const articleComponents = []
+        for(const article of articlesJson["sources"]) {
+          articleComponents.push(
+            <Article
+              name={article["name"]}
+              description={article["description"]}
+              url={article["url"]}
+              />
+          )
+        }
+
+        setArticles(articleComponents);
 
 
-function App() {
+      });
+  
+  }, []);
+
+
+  return(
+    <div>
+      {articles}
+    </div>
+  )
+    
+  
+}
+
+
+
+
+
+
+function App() { 
   
   return (
     <BrowserRouter>
         <Switch>
+          <Route path="/news_feed">
+          <NewsList/>
+          </Route>
           <Route path="/login">
             <Login/>
           </Route>

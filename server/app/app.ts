@@ -1,10 +1,14 @@
 import express from 'express';
 import { Model } from 'sequelize/types';
 
+
+
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var crud = require('./db/crud');
 import { User } from './db/model';
+var newsAPI = require('./newsapi')
+import INewsApiResponse from 'ts-newsapi'
 
 var app = express();
 const port = 8080;
@@ -14,8 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('view engine', 'html');
 var session = require('express-session')
-
-
+require('dotenv').config();
+//Create User
 app.post('/sign_up', (req: express.Request, res: express.Response) => {
 
   const firstName: string  = req.body["firstName"]
@@ -28,6 +32,7 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
 
 })
 
+//Handle Login
 app.post('/handle_login', (req:express.Request, res: express.Response) => {
   const userEmail: string = req.body["email"]
   const userPassword: string = req.body["password"]
@@ -43,6 +48,19 @@ app.post('/handle_login', (req:express.Request, res: express.Response) => {
 
 })
 
+
+//NewsAPI Route
+app.get('/news_feed', (req:express.Request, res:express.Response) => {
+
+  newsAPI.getSources().then(function (apiResponse: INewsApiResponse) {
+    console.log(apiResponse)
+
+    // return json for response
+    res.send(JSON.stringify(apiResponse))
+  })
+
+}
+)
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
