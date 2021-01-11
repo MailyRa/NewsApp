@@ -30,8 +30,21 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
   const email: string  = req.body["email"]
   const password: string  = req.body["password"]
 
-  crud.createUser(firstName, lastName, email, password)
-  res.send('success')
+  crud.getUserByEmail(email).then(function (existingUserResult: Array<typeof User>) {
+    if (existingUserResult.length > 0) {
+      res.send(JSON.stringify({"error": "User already exists"}))
+    } else {
+      crud.createUser(firstName, lastName, email, password).then(function (newUser: typeof User) {
+        res.send(JSON.stringify({
+          "firstName" : newUser.firstName,
+          "lastName": newUser.lastName,
+          "email": newUser.email,
+          "password": newUser.password,
+        }))
+      })
+
+    }
+  })
 
 })
 

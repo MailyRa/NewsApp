@@ -1,6 +1,15 @@
+
+
+
 .App {
   text-align: center;
 }
-.homepage-button{
+.homepage-button-new-user{
+  width: 200px;
+}
+.main-title {
+  text-align: center
+}
+.homepage-button-login{
   width: 200px;
 }

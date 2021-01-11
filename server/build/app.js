@@ -23,8 +23,21 @@ app.post('/sign_up', function (req, res) {
     var lastName = req.body["lastName"];
     var email = req.body["email"];
     var password = req.body["password"];
-    crud.createUser(firstName, lastName, email, password);
-    res.send('success');
+    var user = crud.getUserByEmail(email).then(function (users) {
+        if (users.length > 0) {
+            res.send(JSON.stringify({ "error": "User already exists" }));
+        }
+        else {
+            crud.createUser(firstName, lastName, email, password).then(function (newUser) {
+                res.send(JSON.stringify({
+                    "firstName": newUser.firstName,
+                    "lastName": newUser.lastName,
+                    "email": newUser.email,
+                    "password": newUser.password,
+                }));
+            });
+        }
+    });
 });
 //Handle Login
 app.post('/handle_login', function (req, res) {

@@ -23,10 +23,20 @@ function Homepage() {
   const newUser = (e:any) =>{
     history.push("/create_user")
   }
+
+  const logIn = (e:any) => {
+    history.push("/login")
+  }
+
   return (
-    <div>
-      <h1>News Feed </h1>
-      <Button className="homepage-button" variant= "primary" type= "submit" size= "lg" onClick={newUser}>Sign up</Button>
+    <div className="main-title">
+      <h1>Welcome to Scene </h1>
+      <h2> Your own personalize news feed!</h2>
+      
+      <Button className="homepage-button-new-user" variant= "primary" type= "submit" size= "lg" onClick={newUser}>Sign up</Button>
+      <br></br>
+      <br></br>
+      <Button className="homepage-button-login" variant="primary" type="submit" size="lg" onClick={logIn}> Login </Button>
     </div>
   )
 }
@@ -82,10 +92,12 @@ function CreateUser(){
 
 }
 
+
+
 //Login User
 function Login() {
 
-  let history = useHistory();
+  // let history = useHistory();
 
   const [email, setEmail] = useState<any | null>(null);
   const [password, setPassword] = useState<any | null>(null);
@@ -140,7 +152,7 @@ function Article(props: any) {
       <div>{props.title}</div>
       <div>{props.description}</div>
       <img src={props.urlToImage} alt="article"/>
-      <a href={props.url}>{props.url}</a>
+      <div><a href={props.url}>{props.url}</a></div>
       <div>{props.content}</div>
     </div>
   )
