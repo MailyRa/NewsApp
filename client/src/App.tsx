@@ -223,6 +223,11 @@ function Articles(props: any) {
             </Card.Text>
             {saveButton}
 
+            <form action="mailto:" method="GET" encType="text/plain">
+              <input type="submit" value="Share Article" />
+              <input name="subject" type="hidden" value="Read"/>
+              <input name="body" type="hidden" value={props.url}/>
+            </form>
           </Card.Body>
         </Card>
     </div>
