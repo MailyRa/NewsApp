@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Category = exports.User = void 0;
+exports.SavedArticles = exports.Category = exports.User = void 0;
 //Connecting to Database  
 var _a = require('sequelize'), Sequelize = _a.Sequelize, DataTypes = _a.DataTypes;
 var sequelize = new Sequelize('db', 'root', 'password', {
@@ -53,3 +53,33 @@ var Category = sequelize.define('Category', {
 exports.Category = Category;
 Category.sync({ alter: true });
 console.log(Category === sequelize.models.Category);
+//Saved Articles
+var SavedArticles = sequelize.define('SavedArticles', {
+    articleAuthor: {
+        type: DataTypes.STRING,
+    },
+    articleTitle: {
+        type: DataTypes.STRING,
+    },
+    articleImg: {
+        type: DataTypes.STRING,
+    },
+    articleDescription: {
+        type: DataTypes.STRING,
+    },
+    articleUrl: {
+        type: DataTypes.STRING,
+    },
+    articleContent: {
+        type: DataTypes.STRING,
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+    }
+}, {
+    sequelize: sequelize,
+    modelName: 'SavedArticles'
+});
+exports.SavedArticles = SavedArticles;
+SavedArticles.sync({ alter: true });
+console.log(SavedArticles === sequelize.models.SavedArticles);

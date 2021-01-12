@@ -20,9 +20,8 @@ function getUserByEmail(email: string)  {
 }
 
 //Create SavedArticles function 
-function createSavedArticles(articleName: string, articleAuthor:string, articleTitle: string, articleImg: string, articleDescription: string, articleUrl: string, articleContent:string, userId: number) {
+function createSavedArticle(articleAuthor:string, articleTitle: string, articleImg: string, articleDescription: string, articleUrl: string, articleContent:string, userId: number) {
     return SavedArticles.create({
-        articleName: articleName, 
         articleAuthor: articleAuthor, 
         articleTitle: articleTitle, 
         articleImg: articleImg, 
@@ -49,7 +48,6 @@ export {
     createUser,
     getUserByEmail,
     getArticlesByUserId,
-    createSavedArticles
-
+    createSavedArticle
 }
 

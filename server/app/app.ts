@@ -1,28 +1,25 @@
 import express from 'express';
 import { Model } from 'sequelize/types';
+var session = require('express-session')
+import {Session, SessionData} from "express-session"
 
-
-
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 var crud = require('./db/crud');
 import { SavedArticles, User } from './db/model';
 var newsAPI = require('./newsapi')
 import INewsApiResponse from 'ts-newsapi'
-var today = new Date()
-
 
 var app = express();
 const port = 8080;
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(session({
+  secret : 'MySecret',
+  resave : false,
+  saveUninitialized : false,
+}));
+// app.use(cookieParser());
 app.set('view engine', 'html');
-var session = require('express-session')
 require('dotenv').config();
-
-
 
 //Create User
 app.post('/sign_up', (req: express.Request, res: express.Response) => {
@@ -37,6 +34,7 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
       res.send(JSON.stringify({"error": "User already exists"}))
     } else {
       crud.createUser(firstName, lastName, email, password).then(function (newUser: typeof User) {
+        session.currentUser = newUser.id;
         res.send(JSON.stringify({
           "firstName" : newUser.firstName,
           "lastName": newUser.lastName,
@@ -52,7 +50,7 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
 
 
 //Handle Login
-app.post('/handle_login', (req:express.Request, res: express.Response) => {
+app.post('/handle_login', (req: express.Request, res: express.Response) => {
   const userEmail: string = req.body["email"]
   const userPassword: string = req.body["password"]
 
@@ -60,8 +58,8 @@ app.post('/handle_login', (req:express.Request, res: express.Response) => {
     if (users.length === 0 || users[0].password !== userPassword) {
       res.send(JSON.stringify({"error": "Incorrect Password or Username"}))
     } else {
-      session["currentUser"] = users[0].userId
-      res.send(JSON.stringify({userEmail: "email"})); 
+      session.currentUser = users[0].id;
+      res.send(JSON.stringify({"success": true})); 
     }
   });
 
@@ -78,38 +76,33 @@ app.get('/news_feed', (req:express.Request, res:express.Response) => {
 
 })
 
-// Create Saved Articles 
-app.post('/save_articles', (req:express.Request, res:express.Response) => {
-  const articleName: string =  req.body["articleName"]
+// Create Save Articles 
+app.post('/save_article', (req:express.Request, res:express.Response) => {
   const articleAuthor:string = req.body["articleAuthor"]
   const articleTitle:string = req.body["articleTitle"]
   const articleImg:string = req.body["articleImg"]
   const articleDescription:string = req.body["articleDescription"]
   const articleUrl:string = req.body["articleUrl"]
   const articleContent:string = req.body["articleContent"]
-  const userId:string = req.body["userId"]
+  const userId:string = session.currentUser
 
-  crud.createSavedArticles(articleName, articleAuthor, articleTitle, articleImg, articleDescription, articleUrl, articleContent, userId).then(function(savedArticles: typeof SavedArticles ) {
+  crud.createSavedArticle(
+    articleAuthor, 
+    articleTitle, 
+    articleImg, 
+    articleDescription, 
+    articleUrl, 
+    articleContent, 
+    userId
+  ).then(function(savedArticle: typeof SavedArticles) {
     res.send(JSON.stringify ({
-      "articleName": savedArticles.articleName,
-      "articleAuthor": savedArticles.articleAuthor,
-      "articleTitle": savedArticles.articleTitle,
-      "articleImg": savedArticles.articleImg,
-      "articleDescription": savedArticles.articleDescription,
-      "articleUrl": savedArticles.articleUrl,
-      "articleContent": savedArticles.articleContent,
-
+      "success": true
     }))
   })
 
 })
 
 //Display saved articles
-
-
-
-
-
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

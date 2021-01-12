@@ -176,6 +176,32 @@ function Login() {
 }
 
 function Articles(props: any) {
+    const saveArticle = () => {
+      fetch("/save_article", {
+        method: 'POST',
+        body:JSON.stringify({
+          "articleAuthor": props.author,
+          "articleTitle": props.title,
+          "articleImg": props.urlToImage,
+          "articleDescription": props.description,
+          "articleUrl": props.url,
+          "articleContent": props.content,
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
+      .then((response) => response.json())
+      .then(data => {
+        if("success" in data) {
+          alert("Article Saved!")
+        } else {
+          alert("Article is already saved")
+        }
+      })
+  }
+
   return (
     <div>
         <Card style={{ width: '18rem' }}>
@@ -183,7 +209,6 @@ function Articles(props: any) {
           <Card.Body>
             <Card.Title>{props.title} </Card.Title>
             <Card.Text>
-            <div>{props.name}</div>
             <div>{props.author}</div>
             <div>{props.description}</div>
             <div><a href={props.url}>{props.url}</a></div>
@@ -194,17 +219,10 @@ function Articles(props: any) {
           </Card.Body>
         </Card>
     </div>
-      
-
   )
 }
 
-function saveArticle(){
 
-  return(
-
-  )
-}
 
 
 
@@ -216,8 +234,6 @@ function App() {
   return (
     <BrowserRouter>
         <Switch>
-          <Route path="/save_article">
-          </Route>
           <Route path="/login">
             <Login/>
           </Route>

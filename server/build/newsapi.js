@@ -18,7 +18,7 @@ function getSources() {
 }
 exports.getSources = getSources;
 // Top and breaking headlines 
-function topHeadlines(categoryName) {
+function topHeadlines() {
     return newsAPI.getTopHeadlines({
         q: 'stocks',
         country: 'us',
