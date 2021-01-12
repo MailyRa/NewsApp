@@ -22,6 +22,7 @@ sequelize
 
 
 
+
 //User Table 
 const User = sequelize.define('User', {
     firstName: {
@@ -47,7 +48,7 @@ console.log(User === sequelize.models.User);
 
 
 //Category Table
-const Category = sequelize('Category', {
+const Category = sequelize.define('Category', {
     categoryName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -57,6 +58,10 @@ const Category = sequelize('Category', {
     sequelize,
     modelName: 'Category'
 });
+
+
+
+
 Category.sync({alter: true})
 console.log(Category === sequelize.models.Category);
 
@@ -68,5 +73,5 @@ console.log(Category === sequelize.models.Category);
 export {
     User,
     Category,
-    
+
 }

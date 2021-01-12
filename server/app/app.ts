@@ -9,6 +9,8 @@ var crud = require('./db/crud');
 import { User } from './db/model';
 var newsAPI = require('./newsapi')
 import INewsApiResponse from 'ts-newsapi'
+var today = new Date()
+
 
 var app = express();
 const port = 8080;

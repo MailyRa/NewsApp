@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom'; 
 import {
   Button,
+  CardColumns,
   Form,
 } from 'react-bootstrap'
 
@@ -20,6 +21,34 @@ function Homepage() {
 
   let history = useHistory()
 
+  const [articles, setArticles] = useState<any[]>([]);
+    useEffect(() => {
+      fetch("/news_feed")
+      .then ((response ) => response.json())
+      .then((articlesJson) => {
+        console.log(articlesJson);
+        const articleComponents = []
+        for(const article of articlesJson["articles"]) {
+          articleComponents.push(
+            <Article
+              name={article["name"]}
+              author={article["author"]}
+              title={article["title"]}
+              description={article["description"]}
+              url={article["url"]}
+              urlToImage={article["urlToImage"]}
+              content={article["content"]}
+              />
+          )
+        }
+
+        setArticles(articleComponents);
+
+
+      });
+  
+  }, []);
+
   const newUser = (e:any) =>{
     history.push("/create_user")
   }
@@ -28,15 +57,15 @@ function Homepage() {
     history.push("/login")
   }
 
+
   return (
     <div className="main-title">
       <h1>Welcome to Scene </h1>
-      <h2> Your own personalize news feed!</h2>
-      
       <Button className="homepage-button-new-user" variant= "primary" type= "submit" size= "lg" onClick={newUser}>Sign up</Button>
-      <br></br>
+      
       <br></br>
       <Button className="homepage-button-login" variant="primary" type="submit" size="lg" onClick={logIn}> Login </Button>
+      <CardColumns>{articles}</CardColumns>
     </div>
   )
 }
@@ -158,48 +187,6 @@ function Article(props: any) {
   )
 }
 
-//NewsFeed 
-function NewsList() {
-  const [articles, setArticles] = useState<any[]>([]);
-  
-  useEffect(() => {
-    fetch("/news_feed")
-      .then ((response ) => response.json())
-      .then((articlesJson) => {
-        console.log(articlesJson);
-        const articleComponents = []
-        for(const article of articlesJson["articles"]) {
-          articleComponents.push(
-            <Article
-              name={article["name"]}
-              author={article["author"]}
-              title={article["title"]}
-              description={article["description"]}
-              url={article["url"]}
-              urlToImage={article["urlToImage"]}
-              content={article["content"]}
-              />
-          )
-        }
-
-        setArticles(articleComponents);
-
-
-      });
-  
-  }, []);
-
-
-  return(
-    <div>
-      {articles}
-    </div>
-  )
-    
-  
-}
-
-
 
 
 
@@ -209,9 +196,6 @@ function App() {
   return (
     <BrowserRouter>
         <Switch>
-          <Route path="/news_feed">
-          <NewsList/>
-          </Route>
           <Route path="/login">
             <Login/>
           </Route>

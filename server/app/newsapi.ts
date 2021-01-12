@@ -1,4 +1,7 @@
 import NewsAPI from 'ts-newsapi'
+
+import {ApiNewsCategory} from 'ts-newsapi/lib/types'
+
 require('dotenv').config();
 
 const newsAPI = new NewsAPI("dbd398427f004aa092f7711a0a25da61")
@@ -15,7 +18,7 @@ function getSources() {
 }   
  
 // Top and breaking headlines 
-function topHeadlines() {
+function topHeadlines(categoryName: ApiNewsCategory) {
     return newsAPI.getTopHeadlines({
         q: 'stocks',
         country: 'us',

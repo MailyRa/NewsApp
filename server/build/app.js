@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var crud = require('./db/crud');
 var newsAPI = require('./newsapi');
+var today = new Date();
 var app = express_1.default();
 var port = 8080;
 app.use(logger('dev'));
@@ -23,8 +24,8 @@ app.post('/sign_up', function (req, res) {
     var lastName = req.body["lastName"];
     var email = req.body["email"];
     var password = req.body["password"];
-    var user = crud.getUserByEmail(email).then(function (users) {
-        if (users.length > 0) {
+    crud.getUserByEmail(email).then(function (existingUserResult) {
+        if (existingUserResult.length > 0) {
             res.send(JSON.stringify({ "error": "User already exists" }));
         }
         else {
