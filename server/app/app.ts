@@ -4,7 +4,7 @@ var session = require('express-session')
 import {Session, SessionData} from "express-session"
 
 var crud = require('./db/crud');
-import { SavedArticles, User } from './db/model';
+import { SavedArticles, User,  } from './db/model';
 var newsAPI = require('./newsapi')
 import INewsApiResponse from 'ts-newsapi'
 
@@ -103,6 +103,30 @@ app.post('/save_article', (req:express.Request, res:express.Response) => {
 })
 
 //Display saved articles
+app.get('/user_saved_articles', (req:express.Request,res:express.Response) => {
+  const currentUser = session.currentUser
+  console.log("CURRENT USER ", currentUser)
+  crud.getArticlesByUserId(currentUser).then(function(savedArticles: Array<typeof SavedArticles>) {
+    var articlesJson = [];
+    for(const savedArticle of savedArticles) {
+      articlesJson.push({
+        "author": savedArticle.articleAuthor,
+        "title": savedArticle.articleTitle,
+        "urlToImage": savedArticle.articleImg,
+        "description": savedArticle.articleDescription,
+        "url": savedArticle.articleUrl
+      });
+    }
+    res.send(JSON.stringify({
+      "articles": articlesJson
+    }))
+  })
+
+  
+})
+
+
+
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

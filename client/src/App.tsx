@@ -40,6 +40,7 @@ function Homepage() {
               url={article["url"]}
               urlToImage={article["urlToImage"]}
               content={article["content"]}
+              showSaveButton={true}
               />
           )
         }
@@ -128,8 +129,6 @@ function CreateUser(){
 //Login User
 function Login() {
 
-  // let history = useHistory();
-
   const [email, setEmail] = useState<any | null>(null);
   const [password, setPassword] = useState<any | null>(null);
 
@@ -175,11 +174,14 @@ function Login() {
  
 }
 
+
+// Articles
 function Articles(props: any) {
     const saveArticle = () => {
       fetch("/save_article", {
         method: 'POST',
         body:JSON.stringify({
+          "articleName": props.name,
           "articleAuthor": props.author,
           "articleTitle": props.title,
           "articleImg": props.urlToImage,
@@ -202,6 +204,11 @@ function Articles(props: any) {
       })
   }
 
+  var saveButton = <div></div>
+  if (props.showSaveButton) {
+    saveButton = <Button variant="primary" onClick={saveArticle}>Save</Button>
+  }
+
   return (
     <div>
         <Card style={{ width: '18rem' }}>
@@ -214,7 +221,7 @@ function Articles(props: any) {
             <div><a href={props.url}>{props.url}</a></div>
             <div>{props.content}</div>
             </Card.Text>
-            <Button variant="primary" onClick={saveArticle}>Save</Button>
+            {saveButton}
 
           </Card.Body>
         </Card>
@@ -222,9 +229,38 @@ function Articles(props: any) {
   )
 }
 
+//Display Saved articles by user
+function SavedArticles(){
+  const [articles, setArticles] = useState<any[]>([]);
+    useEffect(() => {
+      fetch("/user_saved_articles")
+      .then ((response ) => response.json())
+      .then((articlesJson) => {
+        console.log(articlesJson);
+        const articleComponents = []
+        for(const article of articlesJson["articles"]) {
+          articleComponents.push(
+            <Articles
+              name={article["name"]}
+              author={article["author"]}
+              title={article["title"]}
+              description={article["description"]}
+              url={article["url"]}
+              urlToImage={article["urlToImage"]}
+              content={article["content"]}
+              showSaveButton={false}
+              />
+          )
+        }
+        setArticles(articleComponents);
+      });
+  }, []);
 
+  return (
+    <div>{articles}</div>
+  )
 
-
+}
 
 
 
@@ -234,6 +270,9 @@ function App() {
   return (
     <BrowserRouter>
         <Switch>
+          <Route path="/saved_articles">
+            <SavedArticles/>
+          </Route>
           <Route path="/login">
             <Login/>
           </Route>

@@ -41,6 +41,8 @@ const User = sequelize.define('User', {
 User.sync({ alter: true })
 console.log(User === sequelize.models.User);
 
+
+
 //Category Table
 const Category = sequelize.define('Category', {
     categoryName: {
@@ -54,6 +56,8 @@ const Category = sequelize.define('Category', {
 });
 Category.sync({alter: true});
 console.log(Category === sequelize.models.Category);
+
+
 
 //Saved Articles
 const SavedArticles = sequelize.define('SavedArticles', {

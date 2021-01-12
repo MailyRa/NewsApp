@@ -79,6 +79,26 @@ app.post('/save_article', function (req, res) {
     });
 });
 //Display saved articles
+app.get('/user_saved_articles', function (req, res) {
+    var currentUser = session.currentUser;
+    console.log("CURRENT USER ", currentUser);
+    crud.getArticlesByUserId(currentUser).then(function (savedArticles) {
+        var articlesJson = [];
+        for (var _i = 0, savedArticles_1 = savedArticles; _i < savedArticles_1.length; _i++) {
+            var savedArticle = savedArticles_1[_i];
+            articlesJson.push({
+                "author": savedArticle.articleAuthor,
+                "title": savedArticle.articleTitle,
+                "urlToImage": savedArticle.articleImg,
+                "description": savedArticle.articleDescription,
+                "url": savedArticle.articleUrl
+            });
+        }
+        res.send(JSON.stringify({
+            "articles": articlesJson
+        }));
+    });
+});
 app.listen(port, function () {
     console.log("Listening at http://localhost:" + port);
 });
