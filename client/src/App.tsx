@@ -264,44 +264,37 @@ function SavedArticles(){
 function App() { 
   const isLoggedIn = localStorage.getItem('is_logged_in');
 
-  let logInOutButton = undefined;
+  let nav = undefined;
   if(isLoggedIn === 'true') {
-    logInOutButton = 
-      <Navbar>
-        <Nav.Link href="/">Home</Nav.Link>
-      </Navbar>
-          // <ul>
-            // <Navbar>
-            //   <Nav className="ml-auto" >
-            //       <Nav.Link href="/">Home</Nav.Link>
-            //       <Nav.Link href="/saved_articles">Saved Articles</Nav.Link>
-            //       <Nav.Link href="/logout">Log out</Nav.Link>
-            //   </Nav>
-            // </Navbar>
-          // </ul>
-      
+    nav = 
+      <Nav className="mr-auto">
+        <Nav.Item>
+          <Nav.Link href="/">Home</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/saved_articles">Saved Articles</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/logout">Log out</Nav.Link>
+        </Nav.Item>
+      </Nav>
     } else {
-        logInOutButton =
-          <ul>
-          <Nav className="mr-sm-2">
+      nav =
+          <Nav className="mr-auto">
             <Nav.Item>
-            <Nav.Link href="/login">Home</Nav.Link>
+              <Nav.Link href="/login">Home</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-            <Nav.Link href="/create_user">Create User</Nav.Link>
+              <Nav.Link href="/create_user">Create User</Nav.Link>
             </Nav.Item>
           </Nav>
-          </ul>
-
       }
 
     return (
         <BrowserRouter>
           <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
             <Navbar.Brand href="/">FastNews</Navbar.Brand>
-            <Nav className="mr-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-            </Nav>
+            {nav}
           </Navbar>
           <div>
               <Switch>
