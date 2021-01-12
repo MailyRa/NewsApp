@@ -81,7 +81,6 @@ app.post('/save_article', function (req, res) {
 //Display saved articles
 app.get('/user_saved_articles', function (req, res) {
     var currentUser = session.currentUser;
-    console.log("CURRENT USER ", currentUser);
     crud.getArticlesByUserId(currentUser).then(function (savedArticles) {
         var articlesJson = [];
         for (var _i = 0, savedArticles_1 = savedArticles; _i < savedArticles_1.length; _i++) {
@@ -98,6 +97,12 @@ app.get('/user_saved_articles', function (req, res) {
             "articles": articlesJson
         }));
     });
+});
+app.post('/handle_logout', function (req, res) {
+    session.currentUser = null;
+    res.send(JSON.stringify({
+        "success": true
+    }));
 });
 app.listen(port, function () {
     console.log("Listening at http://localhost:" + port);

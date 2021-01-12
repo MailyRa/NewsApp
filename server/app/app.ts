@@ -105,7 +105,6 @@ app.post('/save_article', (req:express.Request, res:express.Response) => {
 //Display saved articles
 app.get('/user_saved_articles', (req:express.Request,res:express.Response) => {
   const currentUser = session.currentUser
-  console.log("CURRENT USER ", currentUser)
   crud.getArticlesByUserId(currentUser).then(function(savedArticles: Array<typeof SavedArticles>) {
     var articlesJson = [];
     for(const savedArticle of savedArticles) {
@@ -121,11 +120,15 @@ app.get('/user_saved_articles', (req:express.Request,res:express.Response) => {
       "articles": articlesJson
     }))
   })
-
-  
 })
 
 
+app.post('/handle_logout', (req:express.Request, res: express.Response) => {
+  session.currentUser = null;
+  res.send(JSON.stringify({
+    "success": true
+  }))
+})
 
 
 app.listen(port, () => {

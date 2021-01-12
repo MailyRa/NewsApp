@@ -259,6 +259,27 @@ function SavedArticles(){
 }
 
 
+function Logout(props:any){
+  fetch("handle_logout", {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if("success" in data) {
+      localStorage.setItem('is_logged_in', 'false');
+      window.location.href = "/";
+    } else {
+      alert("Error")
+    }
+  })
+} 
+
+
+
 
 
 function App() { 
@@ -275,14 +296,14 @@ function App() {
           <Nav.Link href="/saved_articles">Saved Articles</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="/logout">Log out</Nav.Link>
+          <Nav.Link onClick={Logout}>Log out</Nav.Link>
         </Nav.Item>
       </Nav>
     } else {
       nav =
           <Nav className="mr-auto">
             <Nav.Item>
-              <Nav.Link href="/login">Home</Nav.Link>
+              <Nav.Link href="/login">Log in</Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link href="/create_user">Create User</Nav.Link>
@@ -310,7 +331,6 @@ function App() {
                 <Route path="/">
                   <Homepage/>
                 </Route>
-
               </Switch>
           </div>
         </BrowserRouter>
