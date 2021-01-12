@@ -11,10 +11,12 @@ import {
 } from 'react-router-dom'; 
 import {
   Button,
-  CardColumns,
   Form,
-} from 'react-bootstrap'
+} from 'react-bootstrap';
 
+import Card from 'react-bootstrap/Card';
+
+import CardDeck from 'react-bootstrap/CardDeck'
 
 //Homepage
 function Homepage() {
@@ -30,7 +32,7 @@ function Homepage() {
         const articleComponents = []
         for(const article of articlesJson["articles"]) {
           articleComponents.push(
-            <Article
+            <Articles
               name={article["name"]}
               author={article["author"]}
               title={article["title"]}
@@ -65,7 +67,7 @@ function Homepage() {
       
       <br></br>
       <Button className="homepage-button-login" variant="primary" type="submit" size="lg" onClick={logIn}> Login </Button>
-      <CardColumns>{articles}</CardColumns>
+       {articles}
     </div>
   )
 }
@@ -173,19 +175,37 @@ function Login() {
  
 }
 
-function Article(props: any) {
+function Articles(props: any) {
   return (
     <div>
-      <div>{props.name}</div>
-      <div>{props.author}</div>
-      <div>{props.title}</div>
-      <div>{props.description}</div>
-      <img src={props.urlToImage} alt="article"/>
-      <div><a href={props.url}>{props.url}</a></div>
-      <div>{props.content}</div>
+        <Card style={{ width: '18rem' }}>
+          <Card.Img variant= "top" src={props.urlToImage} alt="article"/>
+          <Card.Body>
+            <Card.Title>{props.title} </Card.Title>
+            <Card.Text>
+            <div>{props.name}</div>
+            <div>{props.author}</div>
+            <div>{props.description}</div>
+            <div><a href={props.url}>{props.url}</a></div>
+            <div>{props.content}</div>
+            </Card.Text>
+            <Button variant="primary" onClick={saveArticle}>Save</Button>
+
+          </Card.Body>
+        </Card>
     </div>
+      
+
   )
 }
+
+function saveArticle(){
+
+  return(
+
+  )
+}
+
 
 
 
@@ -196,6 +216,8 @@ function App() {
   return (
     <BrowserRouter>
         <Switch>
+          <Route path="/save_article">
+          </Route>
           <Route path="/login">
             <Login/>
           </Route>

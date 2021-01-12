@@ -59,19 +59,56 @@ const Category = sequelize.define('Category', {
     modelName: 'Category'
 });
 
-
-
-
 Category.sync({alter: true})
 console.log(Category === sequelize.models.Category);
 
 
-//User & Category Table 
+
+
+//Save Articles
+const SaveArticles = sequelize.define('SaveArticles', {
+    articleName: {
+        type: DataTypes.STRING, 
+        allowNull: false
+    },
+    articleAuthor: {
+        type: DataTypes.STRING,
+    },
+    articleTitle: {
+        type: DataTypes.STRING,
+    },
+    articleImg: {
+        type: DataTypes.STRING,
+    },
+    articleDescription: {
+        type: DataTypes.STRING,
+    },
+    articleUrl: {
+        type: DataTypes.STRING,
+    },
+    articleContent: {
+        type: DataTypes.STRING,
+    },
+    userId: {
+        type: DataTypes.NUMBER,
+    }
+    
+}, {
+    sequelize,
+    modelName: 'SaveArticles'
+
+
+})
+SaveArticles.sync({alter: true})
+console.log(SaveArticles === sequelize.models.SaveArticles);
+
+
 
 
 
 export {
     User,
     Category,
+    Articles
 
 }
