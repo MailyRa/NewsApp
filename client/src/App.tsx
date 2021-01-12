@@ -6,17 +6,19 @@ import {
   Switch,
   Route,
   useHistory,
-  
-
 } from 'react-router-dom'; 
 import {
   Button,
+  CardDeck,
   Form,
+  Nav,
+  Navbar,
 } from 'react-bootstrap';
 
 import Card from 'react-bootstrap/Card';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-import CardDeck from 'react-bootstrap/CardDeck'
+
 
 //Homepage
 function Homepage() {
@@ -52,23 +54,12 @@ function Homepage() {
   
   }, []);
 
-  const newUser = (e:any) =>{
-    history.push("/create_user")
-  }
-
-  const logIn = (e:any) => {
-    history.push("/login")
-  }
+  
 
 
   return (
     <div className="main-title">
-      <h1>Welcome to Scene </h1>
-      <Button className="homepage-button-new-user" variant= "primary" type= "submit" size= "lg" onClick={newUser}>Sign up</Button>
-      
-      <br></br>
-      <Button className="homepage-button-login" variant="primary" type="submit" size="lg" onClick={logIn}> Login </Button>
-       {articles}
+       <CardDeck>{articles}</CardDeck>
     </div>
   )
 }
@@ -123,7 +114,6 @@ function CreateUser(){
   )
 
 }
-
 
 
 //Login User
@@ -212,16 +202,13 @@ function Articles(props: any) {
   }
 
   return (
-    <div>
-        <Card style={{ width: '18rem' }}>
-          <Card.Img variant= "top" src={props.urlToImage} alt="article"/>
+        <Card className="card card-news">
+          <Card.Img id="card-img" variant= "top"  src={props.urlToImage}/>
           <Card.Body>
-            <Card.Title>{props.title} </Card.Title>
+            <Card.Title>{props.title} <i className="fas fa-university left fa-sm "> </i></Card.Title>
+            <Card.Subtitle className="mb-2 text-muted"><a href={props.url}>Visit website</a></Card.Subtitle>
             <Card.Text>
-            <div>{props.author}</div>
-            <div>{props.description}</div>
-            <div><a href={props.url}>{props.url}</a></div>
-            <div>{props.content}</div>
+            Summary: {props.description}
             </Card.Text>
             {saveButton}
 
@@ -232,9 +219,11 @@ function Articles(props: any) {
             </form>
           </Card.Body>
         </Card>
-    </div>
   )
 }
+
+
+
 
 //Display Saved articles by user
 function SavedArticles(){
@@ -264,7 +253,7 @@ function SavedArticles(){
   }, []);
 
   return (
-    <div>{articles}</div>
+    <div><CardDeck>{articles}</CardDeck></div>
   )
 
 }
@@ -278,46 +267,42 @@ function App() {
   let logInOutButton = undefined;
   if(isLoggedIn === 'true') {
     logInOutButton = 
-      <ul className="navbar-nav">
-          <li className="nav-item active">
-              <a className="nav-link" href="/logout">Logout</a>
-          </li>
-          <li className="nav-item active">
-              <a className="nav-link" href="/saved_articles">Saved Articles</a>
-          </li>
-          <li className="nav-item active">
-              <a className="nav-link" href="/">Home</a>
-          </li>
-      </ul>
+      <Navbar>
+        <Nav.Link href="/">Home</Nav.Link>
+      </Navbar>
+          // <ul>
+            // <Navbar>
+            //   <Nav className="ml-auto" >
+            //       <Nav.Link href="/">Home</Nav.Link>
+            //       <Nav.Link href="/saved_articles">Saved Articles</Nav.Link>
+            //       <Nav.Link href="/logout">Log out</Nav.Link>
+            //   </Nav>
+            // </Navbar>
+          // </ul>
+      
     } else {
-      logInOutButton =
-          <ul className="navbar-nav">
-              <li className="nav-item active">
-                  <a className="nav-link" href="/login">Login</a>
-              </li>
-              <li className="nav-item active">
-                  <a className="nav-link" href="/create_user"> Create Account </a>
-              </li>
+        logInOutButton =
+          <ul>
+          <Nav className="mr-sm-2">
+            <Nav.Item>
+            <Nav.Link href="/login">Home</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+            <Nav.Link href="/create_user">Create User</Nav.Link>
+            </Nav.Item>
+          </Nav>
           </ul>
 
       }
 
-
-      return (
+    return (
         <BrowserRouter>
-          <nav className="navbar navbar-expand-sm navbar-light" id="nav">
-              <a className="navbar-brand" href="/">
-                  Scene     
-              </a> 
-              <button className="navbar-toggler" type="button" data-toggle="collapse"  data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                  <span className="navbar-toggler-icon"></span>
-              </button>
-              <div className="collapse navbar-collapse" id="navbarNav">
-                  <ul className="navbar-nav ml-auto">
-                      {logInOutButton}
-                  </ul>
-              </div>
-          </nav>
+          <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+            <Navbar.Brand href="/">FastNews</Navbar.Brand>
+            <Nav className="mr-auto">
+              <Nav.Link href="/">Home</Nav.Link>
+            </Nav>
+          </Navbar>
           <div>
               <Switch>
                 <Route path="/saved_articles">
@@ -336,9 +321,9 @@ function App() {
               </Switch>
           </div>
         </BrowserRouter>
-      );
-    }
+    );
 
 
 
+}
 export default App;
