@@ -1,5 +1,5 @@
 import { Model, Sequelize } from "sequelize/types";
-import { User } from "./model";
+import { User, SavedArticles } from "./model";
 
 var model = require('./model');
 
@@ -9,6 +9,7 @@ function createUser(firstName: string, lastName: string, email: string, password
     return model.User.create({ firstName: firstName, lastName: lastName, email: email, password: password })
 }
 
+//Get User by email function
 function getUserByEmail(email: string)  {
     return User.findAll({
         where: {
@@ -18,10 +19,37 @@ function getUserByEmail(email: string)  {
     });
 }
 
+//Create SavedArticles function 
+function createSavedArticles(articleName: string, articleAuthor:string, articleTitle: string, articleImg: string, articleDescription: string, articleUrl: string, articleContent:string, userId: number) {
+    return SavedArticles.create({
+        articleName: articleName, 
+        articleAuthor: articleAuthor, 
+        articleTitle: articleTitle, 
+        articleImg: articleImg, 
+        articleDescription: articleDescription, 
+        articleContent: articleContent,
+        articleUrl: articleUrl, 
+        userId: userId
+    })
+}
+
+
+//Get articles by user id 
+function getArticlesByUserId(userId: number) {
+    return SavedArticles.findAll({
+        where: {
+            userId: userId,
+        },
+    }); 
+}
+
 
 
 export {
     createUser,
-    getUserByEmail
+    getUserByEmail,
+    getArticlesByUserId,
+    createSavedArticles
+
 }
 

@@ -6,7 +6,7 @@ import { Model } from 'sequelize/types';
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var crud = require('./db/crud');
-import { User } from './db/model';
+import { SavedArticles, User } from './db/model';
 var newsAPI = require('./newsapi')
 import INewsApiResponse from 'ts-newsapi'
 var today = new Date()
@@ -78,6 +78,33 @@ app.get('/news_feed', (req:express.Request, res:express.Response) => {
 
 })
 
+// Create Saved Articles 
+app.post('/save_articles', (req:express.Request, res:express.Response) => {
+  const articleName: string =  req.body["articleName"]
+  const articleAuthor:string = req.body["articleAuthor"]
+  const articleTitle:string = req.body["articleTitle"]
+  const articleImg:string = req.body["articleImg"]
+  const articleDescription:string = req.body["articleDescription"]
+  const articleUrl:string = req.body["articleUrl"]
+  const articleContent:string = req.body["articleContent"]
+  const userId:string = req.body["userId"]
+
+  crud.createSavedArticles(articleName, articleAuthor, articleTitle, articleImg, articleDescription, articleUrl, articleContent, userId).then(function(savedArticles: typeof SavedArticles ) {
+    res.send(JSON.stringify ({
+      "articleName": savedArticles.articleName,
+      "articleAuthor": savedArticles.articleAuthor,
+      "articleTitle": savedArticles.articleTitle,
+      "articleImg": savedArticles.articleImg,
+      "articleDescription": savedArticles.articleDescription,
+      "articleUrl": savedArticles.articleUrl,
+      "articleContent": savedArticles.articleContent,
+
+    }))
+  })
+
+})
+
+//Display saved articles
 
 
 

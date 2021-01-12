@@ -1,5 +1,3 @@
-
-
 //Connecting to Database  
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize(
@@ -47,6 +45,7 @@ User.sync({ alter: true })
 console.log(User === sequelize.models.User);
 
 
+
 //Category Table
 const Category = sequelize.define('Category', {
     categoryName: {
@@ -65,8 +64,8 @@ console.log(Category === sequelize.models.Category);
 
 
 
-//Save Articles
-const SaveArticles = sequelize.define('SaveArticles', {
+//Saved Articles
+const SavedArticles = sequelize.define('SavedArticles', {
     articleName: {
         type: DataTypes.STRING, 
         allowNull: false
@@ -95,12 +94,12 @@ const SaveArticles = sequelize.define('SaveArticles', {
     
 }, {
     sequelize,
-    modelName: 'SaveArticles'
+    modelName: 'SavedArticles'
 
 
 })
-SaveArticles.sync({alter: true})
-console.log(SaveArticles === sequelize.models.SaveArticles);
+SavedArticles.sync({alter: true})
+console.log(SavedArticles === sequelize.models.SavedArticles);
 
 
 
@@ -109,6 +108,6 @@ console.log(SaveArticles === sequelize.models.SaveArticles);
 export {
     User,
     Category,
-    Articles
+    SavedArticles
 
 }
