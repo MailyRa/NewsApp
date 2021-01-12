@@ -131,6 +131,7 @@ function Login() {
 
   const [email, setEmail] = useState<any | null>(null);
   const [password, setPassword] = useState<any | null>(null);
+  
 
   const handleLogIn = () => {
     const user = {"email": email, "password": password}
@@ -150,6 +151,7 @@ function Login() {
       if("error" in data) {
         alert(data["error"])
       } else {
+        localStorage.setItem('is_logged_in', 'true');
         window.location.href = "/";
       }
     })
@@ -271,27 +273,71 @@ function SavedArticles(){
 
 
 function App() { 
-  
-  return (
-    <BrowserRouter>
-        <Switch>
-          <Route path="/saved_articles">
-            <SavedArticles/>
-          </Route>
-          <Route path="/login">
-            <Login/>
-          </Route>
-          <Route path="/create_user">
-            <CreateUser/>
-          </Route>
-          <Route path="/">
-            <Homepage/>
-          </Route>
+  const isLoggedIn = localStorage.getItem('is_logged_in');
 
-        </Switch>
-    </BrowserRouter>
-  );
-}
+  let logInOutButton = undefined;
+  if(isLoggedIn === 'true') {
+    logInOutButton = 
+      <ul className="navbar-nav">
+          <li className="nav-item active">
+              <a className="nav-link" href="/logout">Logout</a>
+          </li>
+          <li className="nav-item active">
+              <a className="nav-link" href="/saved_articles">Saved Articles</a>
+          </li>
+          <li className="nav-item active">
+              <a className="nav-link" href="/">Home</a>
+          </li>
+      </ul>
+    } else {
+      logInOutButton =
+          <ul className="navbar-nav">
+              <li className="nav-item active">
+                  <a className="nav-link" href="/login">Login</a>
+              </li>
+              <li className="nav-item active">
+                  <a className="nav-link" href="/create_user"> Create Account </a>
+              </li>
+          </ul>
+
+      }
+
+
+      return (
+        <BrowserRouter>
+          <nav className="navbar navbar-expand-sm navbar-light" id="nav">
+              <a className="navbar-brand" href="/">
+                  Scene     
+              </a> 
+              <button className="navbar-toggler" type="button" data-toggle="collapse"  data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span className="navbar-toggler-icon"></span>
+              </button>
+              <div className="collapse navbar-collapse" id="navbarNav">
+                  <ul className="navbar-nav ml-auto">
+                      {logInOutButton}
+                  </ul>
+              </div>
+          </nav>
+          <div>
+              <Switch>
+                <Route path="/saved_articles">
+                  <SavedArticles/>
+                </Route>
+                <Route path="/login">
+                  <Login/>
+                </Route>
+                <Route path="/create_user">
+                  <CreateUser/>
+                </Route>
+                <Route path="/">
+                  <Homepage/>
+                </Route>
+
+              </Switch>
+          </div>
+        </BrowserRouter>
+      );
+    }
 
 
 
