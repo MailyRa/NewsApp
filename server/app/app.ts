@@ -52,17 +52,20 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
 
 })
 
+//Hash Password
 function hashPassword(password: string, callback: (error: Error, hash: string) => void) {
   bcrypt.hash(password, saltRounds, function(err: Error, hash: string) {
     return callback(err, hash);
   });
 }
 
+//Validate Hash password
 function isValidPassword(plainPassword: string, hashedPassword: string, callback: (error: Error, result: boolean) => void) {
   bcrypt.compare(plainPassword, hashedPassword, function(err: Error, result: boolean) {
     return callback(err, result);
   }); 
 }
+
 
 //Handle Login
 app.post('/handle_login', (req: express.Request, res: express.Response) => {
