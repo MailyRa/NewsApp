@@ -8,12 +8,18 @@ import {
   useHistory,
 } from 'react-router-dom'; 
 import {
-  Button,
   CardDeck,
   Form,
   Nav,
-  Navbar,
 } from 'react-bootstrap';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+
 
 import Card from 'react-bootstrap/Card';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -108,7 +114,7 @@ function CreateUser(){
     <Form.Control type="text" placeholder="Last Name" onChange={(e) => setLname(e.target.value)} value={lname}/>
     <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} />
     <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password}/>
-    <Button variant="primary" onClick={createUser} type="submit"> Submit </Button>
+    <Button variant="contained" color="primary" onClick={createUser} type="submit"> Submit </Button>
     </div>
 
   )
@@ -141,8 +147,9 @@ function Login() {
       if("error" in data) {
         alert(data["error"])
       } else {
-        localStorage.setItem('is_logged_in', 'true');
         window.location.href = "/";
+        localStorage.setItem('is_logged_in', 'true');
+        
       }
     })
   }
@@ -198,7 +205,7 @@ function Articles(props: any) {
 
   var saveButton = <div></div>
   if (props.showSaveButton) {
-    saveButton = <Button variant="primary" onClick={saveArticle}>Save</Button>
+    saveButton = <Button variant="contained" color="primary" onClick={saveArticle}>Save</Button>
   }
 
   return (
@@ -206,14 +213,14 @@ function Articles(props: any) {
           <Card.Img id="card-img" variant= "top"  src={props.urlToImage}/>
           <Card.Body>
             <Card.Title>{props.title} <i className="fas fa-university left fa-sm "> </i></Card.Title>
-            <Card.Subtitle className="mb-2 text-muted"><a href={props.url}>Visit website</a></Card.Subtitle>
+            <Card.Subtitle className="mb-2 text-muted"><Link href={props.url}>Visit website</Link></Card.Subtitle>
             <Card.Text>
             Summary: {props.description}
             </Card.Text>
             {saveButton}
 
             <form action="mailto:" method="GET" encType="text/plain">
-              <input type="submit" value="Share Article" />
+              <Button variant="contained" type="submit"> Share Article</Button> 
               <input name="subject" type="hidden" value="Read"/>
               <input name="body" type="hidden" value={props.url}/>
             </form>
@@ -280,43 +287,52 @@ function Logout(props:any){
 
 
 
-
+const useStyles = makeStyles(({ spacing }: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }),
+);
 
 function App() { 
   const isLoggedIn = localStorage.getItem('is_logged_in');
 
-  let nav = undefined;
+  let navButtons = undefined;
   if(isLoggedIn === 'true') {
-    nav = 
-      <Nav className="mr-auto">
-        <Nav.Item>
-          <Nav.Link href="/">Home</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/saved_articles">Saved Articles</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link onClick={Logout}>Log out</Nav.Link>
-        </Nav.Item>
-      </Nav>
+    navButtons = 
+        <div>
+          <Button color="inherit" href="/">Home</Button>
+          <Button color="inherit" href="/saved_articles">Saved Articles</Button>
+          <Button color="inherit" onClick={Logout}>Log out</Button>
+        </div>
     } else {
-      nav =
-          <Nav className="mr-auto">
-            <Nav.Item>
-              <Nav.Link href="/login">Log in</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="/create_user">Create User</Nav.Link>
-            </Nav.Item>
-          </Nav>
-      }
+      navButtons = 
+        <div>
+          <Button color="inherit" href="/">Home</Button>
+          <Button color="inherit" href="/login">Login</Button>
+          <Button color="inherit" href="/create_user">Sign up</Button>
+        </div>
+    }
 
+    
+    const classes = useStyles();
     return (
         <BrowserRouter>
-          <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
-            <Navbar.Brand href="/">FastNews</Navbar.Brand>
-            {nav}
-          </Navbar>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" className={classes.title}>
+                NewsApp
+              </Typography>
+              {navButtons}
+            </Toolbar>
+          </AppBar>
           <div>
               <Switch>
                 <Route path="/saved_articles">
