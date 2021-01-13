@@ -16,7 +16,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }));
-// app.use(cookieParser());
 app.set('view engine', 'html');
 require('dotenv').config();
 //Create User
@@ -98,6 +97,7 @@ app.get('/user_saved_articles', function (req, res) {
         }));
     });
 });
+//Handle logout 
 app.post('/handle_logout', function (req, res) {
     session.currentUser = null;
     res.send(JSON.stringify({

@@ -18,6 +18,8 @@ sequelize
     console.log('Unable to connect to the database:', err);
   });
 
+
+
 //User Table 
 const User = sequelize.define('User', {
     firstName: {
@@ -40,23 +42,6 @@ const User = sequelize.define('User', {
 });
 User.sync({ alter: true })
 console.log(User === sequelize.models.User);
-
-
-
-//Category Table
-const Category = sequelize.define('Category', {
-    categoryName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
-
-}, {
-    sequelize,
-    modelName: 'Category'
-});
-Category.sync({alter: true});
-console.log(Category === sequelize.models.Category);
-
 
 
 //Saved Articles
@@ -89,8 +74,8 @@ const SavedArticles = sequelize.define('SavedArticles', {
 SavedArticles.sync({ alter: true });
 console.log(SavedArticles === sequelize.models.SavedArticles);
 
+
 export {
     User,
-    Category,
     SavedArticles
 }

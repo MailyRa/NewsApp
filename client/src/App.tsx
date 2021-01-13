@@ -10,7 +10,6 @@ import {
 import {
   CardDeck,
   Form,
-  Nav,
 } from 'react-bootstrap';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -19,18 +18,14 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-
-
 import Card from 'react-bootstrap/Card';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import userEvent from "@testing-library/user-event";
+
 
 
 
 //Homepage
 function Homepage() {
-
-  let history = useHistory()
-
   const [articles, setArticles] = useState<any[]>([]);
     useEffect(() => {
       fetch("/news_feed")
@@ -60,15 +55,13 @@ function Homepage() {
   
   }, []);
 
-  
-
-
   return (
     <div className="main-title">
        <CardDeck>{articles}</CardDeck>
     </div>
   )
 }
+
 
 
 //Create User Page 
@@ -100,7 +93,9 @@ function CreateUser(){
       if ("error" in data){
         alert(data["error"])
       } else {
-        history.push('/')
+        window.location.href = "/";
+        localStorage.setItem('is_logged_in', 'true');
+
       }
     })
 
@@ -122,12 +117,11 @@ function CreateUser(){
 }
 
 
+
 //Login User
 function Login() {
-
   const [email, setEmail] = useState<any | null>(null);
   const [password, setPassword] = useState<any | null>(null);
-  
 
   const handleLogIn = () => {
     const user = {"email": email, "password": password}
@@ -170,13 +164,19 @@ function Login() {
     </form>
 
   )
- 
+
 }
+
 
 
 // Articles
 function Articles(props: any) {
     const saveArticle = () => {
+      const isLoggedIn = localStorage.getItem('is_logged_in');
+      if ( isLoggedIn !== 'true') {
+        alert('Must log in to save')
+        return 
+      }
       fetch("/save_article", {
         method: 'POST',
         body:JSON.stringify({
@@ -266,6 +266,8 @@ function SavedArticles(){
 }
 
 
+
+//Logout Function
 function Logout(props:any){
   fetch("handle_logout", {
       method: 'POST',
@@ -285,8 +287,6 @@ function Logout(props:any){
   })
 } 
 
-
-
 const useStyles = makeStyles(({ spacing }: Theme) =>
   createStyles({
     root: {
@@ -300,6 +300,8 @@ const useStyles = makeStyles(({ spacing }: Theme) =>
     },
   }),
 );
+
+
 
 function App() { 
   const isLoggedIn = localStorage.getItem('is_logged_in');
@@ -328,7 +330,7 @@ function App() {
           <AppBar position="static">
             <Toolbar>
               <Typography variant="h6" className={classes.title}>
-                NewsApp
+                MyNews
               </Typography>
               {navButtons}
             </Toolbar>

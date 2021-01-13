@@ -1,8 +1,6 @@
 import express from 'express';
 import { Model } from 'sequelize/types';
 var session = require('express-session')
-import {Session, SessionData} from "express-session"
-
 var crud = require('./db/crud');
 import { SavedArticles, User,  } from './db/model';
 var newsAPI = require('./newsapi')
@@ -17,9 +15,11 @@ app.use(session({
   resave : false,
   saveUninitialized : false,
 }));
-// app.use(cookieParser());
+
 app.set('view engine', 'html');
 require('dotenv').config();
+
+
 
 //Create User
 app.post('/sign_up', (req: express.Request, res: express.Response) => {
@@ -49,6 +49,7 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
 })
 
 
+
 //Handle Login
 app.post('/handle_login', (req: express.Request, res: express.Response) => {
   const userEmail: string = req.body["email"]
@@ -66,6 +67,7 @@ app.post('/handle_login', (req: express.Request, res: express.Response) => {
 })
 
 
+
 //NewsAPI Route
 app.get('/news_feed', (req:express.Request, res:express.Response) => {
 
@@ -75,6 +77,8 @@ app.get('/news_feed', (req:express.Request, res:express.Response) => {
   })
 
 })
+
+
 
 // Create Save Articles 
 app.post('/save_article', (req:express.Request, res:express.Response) => {
@@ -102,6 +106,8 @@ app.post('/save_article', (req:express.Request, res:express.Response) => {
 
 })
 
+
+
 //Display saved articles
 app.get('/user_saved_articles', (req:express.Request,res:express.Response) => {
   const currentUser = session.currentUser
@@ -123,6 +129,7 @@ app.get('/user_saved_articles', (req:express.Request,res:express.Response) => {
 })
 
 
+//Handle logout 
 app.post('/handle_logout', (req:express.Request, res: express.Response) => {
   session.currentUser = null;
   res.send(JSON.stringify({
