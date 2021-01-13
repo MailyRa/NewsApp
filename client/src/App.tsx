@@ -93,9 +93,9 @@ function CreateUser(){
       if ("error" in data){
         alert(data["error"])
       } else {
-        window.location.href = "/";
         localStorage.setItem('is_logged_in', 'true');
-
+        window.location.href = "/";
+        return false;
       }
     })
 
@@ -133,24 +133,22 @@ function Login() {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-
-
     })
     .then(response => response.json())
     .then((data) => {
       if("error" in data) {
         alert(data["error"])
       } else {
-        window.location.href = "/";
         localStorage.setItem('is_logged_in', 'true');
-        
+        window.location.href = "/";
+        return false;
       }
     })
   }
 
 
   return (
-    <form>
+    <div>
       <title> Log in </title>
       <label>
         Email:
@@ -160,8 +158,8 @@ function Login() {
         Password:
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password}/>
       </label>
-      <input type="submit" onClick={handleLogIn} value="Submit" />
-    </form>
+      <Button variant="contained" color="primary" onClick={handleLogIn} type="submit"> Submit </Button>
+    </div>
 
   )
 
@@ -281,6 +279,7 @@ function Logout(props:any){
     if("success" in data) {
       localStorage.setItem('is_logged_in', 'false');
       window.location.href = "/";
+      return false
     } else {
       alert("Error")
     }

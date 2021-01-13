@@ -4,8 +4,8 @@ exports.createSavedArticle = exports.getArticlesByUserId = exports.getUserByEmai
 var model_1 = require("./model");
 var model = require('./model');
 //Create User function
-function createUser(firstName, lastName, email, password) {
-    return model.User.create({ firstName: firstName, lastName: lastName, email: email, password: password });
+function createUser(firstName, lastName, email, hashedPassword) {
+    return model.User.create({ firstName: firstName, lastName: lastName, email: email, password: hashedPassword });
 }
 exports.createUser = createUser;
 //Get User by email function
