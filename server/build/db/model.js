@@ -17,6 +17,7 @@ sequelize
     console.log(err);
     console.log('Unable to connect to the database:', err);
 });
+
 //User Table 
 var User = sequelize.define('User', {
     firstName: {

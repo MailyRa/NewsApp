@@ -40,10 +40,7 @@ app.post('/sign_up', (req: express.Request, res: express.Response) => {
         crud.createUser(firstName, lastName, email, hashedPassword).then(function (newUser: typeof User) {
           session.currentUser = newUser.id;
           res.send(JSON.stringify({
-            "firstName" : newUser.firstName,
-            "lastName": newUser.lastName,
-            "email": newUser.email,
-            "password": newUser.password,
+            "success" : true
           }))
         })
       });
@@ -59,7 +56,7 @@ function hashPassword(password: string, callback: (error: Error, hash: string) =
   });
 }
 
-//Validate Hash password
+//Validate Hash
 function isValidPassword(plainPassword: string, hashedPassword: string, callback: (error: Error, result: boolean) => void) {
   bcrypt.compare(plainPassword, hashedPassword, function(err: Error, result: boolean) {
     return callback(err, result);
