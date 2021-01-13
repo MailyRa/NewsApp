@@ -39,32 +39,32 @@ When a user has either logged in or created an account the "Saved Articles" link
 When the user is logged into the app they also have the option to logout when their session has ended. The logout link is only displayed in the navbar when the user is logged in, otherwise users will not be presented with this option. 
 
 
-## Project Requirements
+### Project Requirements:
 Please list examples of how your project meets the following requirements below:
 - [x] Use a modern JS Library/Framework like React, Angular, etc. We suggest using React.js.
 
-React.js
+  React.js
 
 - [x] Create an application that can be interacted with in a minimum of three different ways by the user.
 
-Login, Sign up, Logout, share article, save article, visit article webpage
+  Login, Sign up, Logout, share article, save article, visit article webpage
 
 - [x] Use of at least one Service.
 
-Used an Express Node.js server for the backend service
+  Used an Express Node.js server for the backend service
 
 - [x] The usage of a specified architectural pattern (MVC, MVP, MVVM,  etc.)
 
-I used an MVC architectural pattern for this project using a MySQL db, Express, and React for the web view.
+  I used an MVC architectural pattern for this project using a MySQL db, Express, and React for the web view.
 
 - [x] Use of a [REST API](https://medium.com/@arteko/the-best-way-to-use-rest-apis-in-swift-95e10696c980).
 
-I used the Express framework to build a REST API with 6 endpoints (4 POST and 2 GET)
+  I used the Express framework to build a REST API with 6 endpoints (4 POST and 2 GET)
 
 - [x] Usage of at least 5 UI components from the [material-ui/@core](https://material-ui.com/) library (if you are not using React, a comparable UI library is acceptable)
 
-I used: AppBar, Toolbar, Typography, Button, and Link. I also used the Card component from the react bootstrap library. 
+  I used: AppBar, Toolbar, Typography, Button, and Link. I also used the Card component from the react bootstrap library. 
 
 - [x] An example of a reusable UI component that you have created and used in the app. This should be different than the 5 UI components from the vendor library.
 
-I created a custom Article component in my app that is used on both the Homepage and the Saved Articles page. This component displays all of the relevant information about a news article in a card.
+ I created a custom Article component in my app that is used on both the Homepage and the Saved Articles page. This component displays all of the relevant             information about a news article in a card.
