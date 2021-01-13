@@ -35,21 +35,20 @@ app.post('/sign_up', function (req, res) {
                 crud.createUser(firstName, lastName, email, hashedPassword).then(function (newUser) {
                     session.currentUser = newUser.id;
                     res.send(JSON.stringify({
-                        "firstName": newUser.firstName,
-                        "lastName": newUser.lastName,
-                        "email": newUser.email,
-                        "password": newUser.password,
+                        "success": true
                     }));
                 });
             });
         }
     });
 });
+//Hash Password
 function hashPassword(password, callback) {
     bcrypt.hash(password, saltRounds, function (err, hash) {
         return callback(err, hash);
     });
 }
+//Validate Hash
 function isValidPassword(plainPassword, hashedPassword, callback) {
     bcrypt.compare(plainPassword, hashedPassword, function (err, result) {
         return callback(err, result);
