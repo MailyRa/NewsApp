@@ -67,4 +67,4 @@ Please list examples of how your project meets the following requirements below:
 
 - [x] An example of a reusable UI component that you have created and used in the app. This should be different than the 5 UI components from the vendor library.
 
- I created a custom Article component in my app that is used on both the Homepage and the Saved Articles page. This component displays all of the relevant             information about a news article in a card.
+   I created a custom Article component in my app that is used on both the Homepage and the Saved Articles page. This component displays all of the relevant            information about a news article in a card.
