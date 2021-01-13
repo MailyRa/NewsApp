@@ -5,21 +5,26 @@ MyNews is a webapp that allows users to browse through different news articles w
 This app uses the MVC pattern where my model consists of the MySQL DB, the controller is defined in app.js, and the view is rendered via react in the frontend. 
 
 # Newsfeed/Homepage
-# screenshot
+
+## Homepage
+<img src="https://github.com/MailyRa/Onramp-Twitch-TakeHome/blob/main/screenshots/Screen%20Shot%202021-01-13%20at%2012.48.41%20AM.png?raw=true" width="80%">
+
+## Share Article
+<img src="https://github.com/MailyRa/Onramp-Twitch-TakeHome/blob/main/screenshots/Screen%20Shot%202021-01-13%20at%2012.53.06%20AM.png?raw=true" width="80%">
 On the homepage users can see the most recent news articles from a variety of sources. The data for the articles is fetched via the /news_feed endpoint. Each article is displayed inside of a custom Article component. This compontent contains relevant information about the article as well as a link to the original article, a button to save the article to the user's profile, and a button to share the article via email. The save article button will only work when the user is logged in. If the user is logged out, pressing this button will alert the user that they need to create an account, otherwise the article will be saved to the user's profile via the /save_article POST endpoint. 
 
 When the user first lands on this page they will see the navigation bar at the top with the option to create an account which takes them to the sign up page or they can login which takes them to the login page. 
 
 # Login page
-# screenshot
+<img src="https://github.com/MailyRa/Onramp-Twitch-TakeHome/blob/main/screenshots/Screen%20Shot%202021-01-13%20at%2012.48.53%20AM.png?raw=true" width="80%">
 On the login page there are 3 components: an email text field, a password text field, and a submit button. When the user presses the submit button, the data from both text fields are send to the server to the /handle_login endpoint. This will fetch any existing users and validate the plaintext password against the hashed password in the Users table. If a user logs in successfully they are redirected to the homepage where they are able to save articles to their profile.
 
 # Sign up page
-# screenshot
+<img src="https://github.com/MailyRa/Onramp-Twitch-TakeHome/blob/main/screenshots/Screen%20Shot%202021-01-13%20at%2012.50.53%20AM.png?raw=true" width="80%">
 On the sign up page there are 5 components: a first name text field, a last name text field, an email text field, a password text field, and a submit button. When a user presses the submit button the data is sent to the server to the /sign_up endpoint. This endpoint will first check to see if there are any existing users in the database with the same email address. If there is an existing user then an error message is returned to the client. If there is not an exisitng user, then a new user is created in the Users table. The password that is stored for the user is first hashed before saving it in the db. After successfully creating an account the user is redirected to the homepage.
 
 # Saved Articles page
-# screenshot
+<img src="https://github.com/MailyRa/Onramp-Twitch-TakeHome/blob/main/screenshots/Screen%20Shot%202021-01-13%20at%2012.52.34%20AM.png?raw=true" width="80%">
 When a user has either logged in or created an account the "Saved Articles" link appears in the nav bar at the top of the webpage. This fetches data via the /user_saved_articles endpoint. This endpoint returns all of the artcles from the SavedArticles table for the logged in user and displays the articles using the custom Article component as described above. 
 
 # Logout
