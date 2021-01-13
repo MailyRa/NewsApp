@@ -5,7 +5,6 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  useHistory,
 } from 'react-router-dom'; 
 import {
   CardDeck,
@@ -19,10 +18,6 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Card from 'react-bootstrap/Card';
-import userEvent from "@testing-library/user-event";
-
-
-
 
 //Homepage
 function Homepage() {
@@ -102,11 +97,22 @@ function CreateUser(){
   return (
     <div>
      <h1> Sign up </h1>
-    <Form.Label>First Name</Form.Label>
+    <Form.Label>First Name:</Form.Label>
     <Form.Control type="text" placeholder="First Name" onChange={(e) => setFname(e.target.value)} value={fname} />
+    <br/>
+    <br/>
+    <Form.Label>Last Name:</Form.Label>
     <Form.Control type="text" placeholder="Last Name" onChange={(e) => setLname(e.target.value)} value={lname}/>
+    <br/>
+    <br/>
+    <Form.Label>Email:</Form.Label>
     <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} />
+    <br/>
+    <br/>
+    <Form.Label>Password:</Form.Label>
     <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password}/>
+    <br/>
+    <br/>
     <Button variant="contained" color="primary" onClick={createUser} type="submit"> Submit </Button>
     </div>
 
