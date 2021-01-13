@@ -66,8 +66,6 @@ function Homepage() {
 
 //Create User Page 
 function CreateUser(){
-  let history = useHistory();
-
   const[fname, setFname] = useState('');
   const[lname, setLname] = useState('');
   const[email, setEmail] = useState('');
